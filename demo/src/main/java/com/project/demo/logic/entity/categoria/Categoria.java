@@ -18,8 +18,7 @@ public class Categoria {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    @Enumerated(EnumType.STRING)
-    private RoleEnum nombre;
+    private String nombre;
 
     @Column(nullable = false)
     private String descripcion;
@@ -35,11 +34,11 @@ public class Categoria {
         this.id = id;
     }
 
-    public RoleEnum getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(RoleEnum nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 

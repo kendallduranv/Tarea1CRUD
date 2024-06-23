@@ -29,6 +29,10 @@ import java.util.List;
     @Column(nullable = false)
     private Integer cantidadStock;
 
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", referencedColumnName = "id", nullable = false)
+    private Categoria categoria;
+
     public Long getId() {
         return id;
     }
@@ -84,9 +88,7 @@ import java.util.List;
 //    }
 
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "categoria_id", referencedColumnName = "id", nullable = false)
-    private Categoria categoria;
+
 
 
 

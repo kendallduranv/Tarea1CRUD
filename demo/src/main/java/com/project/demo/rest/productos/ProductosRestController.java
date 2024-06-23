@@ -21,7 +21,6 @@ public class ProductosRestController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN_ROLE')")
     public List<Producto> getAllProductos() {
         return ProductoRepository.findAll();
     }
@@ -51,7 +50,7 @@ public class ProductosRestController {
                     existingProducto.setDescripcion(Producto.getDescripcion());
                     existingProducto.setPrecio(Producto.getPrecio());
                     existingProducto.setCantidadStock(Producto.getCantidadStock());
-//                    existingProducto.setCategoria(Producto.setCategoria());
+                    existingProducto.setCategoria(Producto.getCategoria());
                     return ProductoRepository.save(existingProducto);
                 })
                 .orElseGet(() -> {
