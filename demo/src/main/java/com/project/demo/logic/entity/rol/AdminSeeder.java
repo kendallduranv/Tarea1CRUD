@@ -30,6 +30,7 @@ public class AdminSeeder implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         this.createSuperAdministrator();
+        this.createUserRoleUser();
     }
 
     private void createSuperAdministrator() {
@@ -39,7 +40,31 @@ public class AdminSeeder implements ApplicationListener<ContextRefreshedEvent> {
         superAdmin.setEmail("super.admin@gmail.com");
         superAdmin.setPassword("superadmin123");
 
-        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.SUPER_ADMIN);
+        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.SUPER_ADMIN_ROLE);
+        Optional<User> optionalUser = userRepository.findByEmail(superAdmin.getEmail());
+
+        if (optionalRole.isEmpty() || optionalUser.isPresent()) {
+            return;
+        }
+
+        var user = new User();
+        user.setName(superAdmin.getName());
+        user.setLastname(superAdmin.getLastname());
+        user.setEmail(superAdmin.getEmail());
+        user.setPassword(passwordEncoder.encode(superAdmin.getPassword()));
+        user.setRole(optionalRole.get());
+
+        userRepository.save(user);
+    }
+
+    private void createUserRoleUser() {
+        User superAdmin = new User();
+        superAdmin.setName("USER");
+        superAdmin.setLastname("UserRole");
+        superAdmin.setEmail("user.user@gmail.com");
+        superAdmin.setPassword("user123");
+
+        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.USER);
         Optional<User> optionalUser = userRepository.findByEmail(superAdmin.getEmail());
 
         if (optionalRole.isEmpty() || optionalUser.isPresent()) {
